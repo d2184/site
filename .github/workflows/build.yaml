@@ -48,9 +48,6 @@ jobs:
 
       - name: Append more domains
         run: |
-          curl -LR -o- "https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Surge/NivodTV/NivodTV.list" | grep -v "#" | sed 's/DOMAIN-SUFFIX,/domain:/g; s/DOMAIN-KEYWORD,/keyword:/g' > data/nivodtv
-          echo "domain:olddddd.com" >> data/nivodtv
-          echo "include:nivodtv" >> ./data/geolocation-\!cn
           sed -i '/:@!cn/d' ./data/geolocation-cn
           curl -LR -o- "https://github.com/d2184/geosite/raw/custom/direct.txt" | grep -v "#" >> ./data/geolocation-cn
           sed -i '/:@cn/d' ./data/geolocation-\!cn

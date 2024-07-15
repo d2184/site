@@ -35,6 +35,13 @@ jobs:
           ref: main
           fetch-depth: 0
 
+      - name: Checkout custom branch
+        uses: actions/checkout@v4
+        with:
+          ref: custom
+          fetch-depth: 0
+          path: custom
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -43,19 +50,21 @@ jobs:
 
       - name: Get Data
         run: |
-          git clone https://github.com/v2fly/domain-list-community repo && mv repo/data ./ && rm -rf repo
+          git clone https://github.com/v2fly/domain-list-community repo
+          mv repo/data ./ && rm -rf repo
         shell: bash
 
       - name: Append more domains
         run: |
           sed -i '/:@!cn/d' ./data/geolocation-cn
-          curl -LR -o- "https://github.com/d2184/geosite/raw/custom/direct.txt" | grep -v "#" >> ./data/geolocation-cn
           sed -i '/:@cn/d' ./data/geolocation-\!cn
+          cat ./custom/direct.txt >> ./data/geolocation-cn
+          cat ./custom/private.txt > ./data/private
         shell: bash
 
       - name: Build
         run: |
-          mkdir -p ./publish/text
+          mkdir -p ./publish
           go run ./ --outputdir=./publish/
 
       - name: Generate sing-box and mihomo rule-set

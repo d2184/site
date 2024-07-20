@@ -60,6 +60,7 @@ jobs:
           sed -i '/:@cn/d' ./data/geolocation-\!cn
           cat ./custom/direct.txt >> ./data/geolocation-cn
           cat ./custom/private.txt > ./data/private
+          cat ./custom/outlook.txt >> ./data/microsoft
         shell: bash
 
       - name: Build

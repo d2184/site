@@ -8,7 +8,7 @@
 
 - [v2fly/domain-list-community](https://github.com/v2fly/domain-list-community)
 - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
-- [xishang0128/convert](https://github.com/xishang0128/convert)
+- [MetaCubeX/meta-rules-converter](https://github.com/MetaCubeX/meta-rules-converter)
 
 ## LICENSE
 

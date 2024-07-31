@@ -70,13 +70,13 @@ jobs:
 
       - name: Generate sing-box and mihomo rule-set
         run: |
-          curl -sSL https://github.com/d2184/convert-tools/releases/download/PreRealease-convert/convert-linux-amd64 -o ./convert && chmod +x ./convert
+          curl -sSL https://github.com/d2184/convert-tools/releases/download/PreRealease-converter/converter-linux-amd64 -o ./converter && chmod +x ./converter
 
           mkdir -p ./sing-box
-          ./convert geosite -f ./publish/geosite.dat -o ./sing-box -t sing-box
+          ./converter geosite -f ./publish/geosite.dat -o ./sing-box -t sing-box
 
           mkdir -p ./mihomo
-          ./convert geosite -f ./publish/geosite.dat -o ./mihomo
+          ./converter geosite -f ./publish/geosite.dat -o ./mihomo
 
           cd mihomo && mkdir -p ./domain && mv -f ./*.list ./*.yaml ./domain/ && cd ..
         shell: bash

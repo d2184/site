@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - main
-      - custom
 
 env: 
   TZ: Asia/Shanghai
@@ -59,8 +58,8 @@ jobs:
           sed -i '/:@!cn/d' ./data/geolocation-cn
           sed -i '/:@cn/d' ./data/geolocation-\!cn
           cat ./custom/direct.txt >> ./data/geolocation-cn
-          cat ./custom/private.txt > ./data/private
           cat ./custom/outlook.txt >> ./data/microsoft
+          cat ./custom/captive.txt >> ./data/connectivity-check
         shell: bash
 
       - name: Build

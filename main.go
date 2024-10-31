@@ -53,7 +53,7 @@ func (l *ParsedList) toPlainText(listName string) error {
 		entryBytes = append(entryBytes, []byte(entry.Type+":"+entry.Value+attrString+"\n")...)
 	}
 	if err := os.WriteFile(filepath.Join(*outputDir, listName+".txt"), entryBytes, 0644); err != nil {
-		return fmt.Errorf(err.Error())
+		return err
 	}
 	return nil
 }
@@ -102,7 +102,7 @@ func exportPlainTextList(list []string, refName string, pl *ParsedList) {
 				fmt.Println("Failed: ", err)
 				continue
 			}
-			fmt.Printf("'%s' has been generated successfully.\n", listName)
+			fmt.Printf("✅ '%s' has been generated successfully.\n", listName)
 		}
 	}
 }
@@ -305,7 +305,7 @@ func main() {
 	flag.Parse()
 
 	dir := *dataPath
-	fmt.Println("Use domain lists in", dir)
+	fmt.Println("✔️ Use domain lists in", dir)
 
 	ref := make(map[string]*List)
 	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
@@ -323,14 +323,14 @@ func main() {
 		return nil
 	})
 	if err != nil {
-		fmt.Println("Failed: ", err)
+		fmt.Println("❌ Failed: ", err)
 		os.Exit(1)
 	}
 
 	// Create output directory if not exist
 	if _, err := os.Stat(*outputDir); os.IsNotExist(err) {
 		if mkErr := os.MkdirAll(*outputDir, 0755); mkErr != nil {
-			fmt.Println("Failed: ", mkErr)
+			fmt.Println("❌ Failed: ", mkErr)
 			os.Exit(1)
 		}
 	}
@@ -340,12 +340,12 @@ func main() {
 	for refName, list := range ref {
 		pl, err := ParseList(list, ref)
 		if err != nil {
-			fmt.Println("Failed: ", err)
+			fmt.Println("❌ Failed: ", err)
 			os.Exit(1)
 		}
 		site, err := pl.toProto()
 		if err != nil {
-			fmt.Println("Failed: ", err)
+			fmt.Println("❌ Failed: ", err)
 			os.Exit(1)
 		}
 		protoList.Entry = append(protoList.Entry, site)
@@ -362,7 +362,7 @@ func main() {
 					if err == nil || os.IsExist(err) {
 						existList = append(existList, exportedListName)
 					} else {
-						fmt.Printf("'%s' list does not exist in '%s' directory.\n", exportedListName, dir)
+						fmt.Printf("❌ '%s' list does not exist in '%s' directory.\n", exportedListName, dir)
 					}
 				}
 				if existList != nil {
@@ -379,13 +379,13 @@ func main() {
 
 	protoBytes, err := proto.Marshal(protoList)
 	if err != nil {
-		fmt.Println("Failed:", err)
+		fmt.Println("❌ Failed:", err)
 		os.Exit(1)
 	}
 	if err := os.WriteFile(filepath.Join(*outputDir, *outputName), protoBytes, 0644); err != nil {
-		fmt.Println("Failed: ", err)
+		fmt.Println("❌ Failed: ", err)
 		os.Exit(1)
 	} else {
-		fmt.Println(*outputName, "has been generated successfully.")
+		fmt.Printf("✅ '%s' has been generated successfully.", *outputName)
 	}
 }

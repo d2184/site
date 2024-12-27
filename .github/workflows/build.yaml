@@ -60,6 +60,7 @@ jobs:
           cat ./custom/direct.txt >> ./data/geolocation-cn
           cat ./custom/outlook.txt >> ./data/microsoft
           cat ./custom/captive.txt >> ./data/connectivity-check
+          cat ./custom/tiktok.txt >> ./data/tiktok
         shell: bash
 
       - name: Build
